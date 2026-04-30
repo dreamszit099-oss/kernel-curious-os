@@ -10,6 +10,35 @@
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23FFD700' width='192' height='192'/><text x='50%' y='50%' font-size='120' fill='%231E90FF' font-family='sans-serif' font-weight='bold' text-anchor='middle' dominant-baseline='middle'>K</text></svg>">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect fill='%23FFD700' width='64' height='64'/><text x='50%' y='50%' font-size='40' fill='%231E90FF' font-family='sans-serif' font-weight='bold' text-anchor='middle' dominant-baseline='middle'>K</text></svg>">
+  
+  <style>
+    /* CSS de Emergencia para depuración de visibilidad */
+    #main-ui { 
+      display: flex !important; 
+      visibility: visible !important; 
+      min-height: 100vh;
+    }
+    
+    #content-area { 
+      flex: 1;
+      background-color: #f4f4f4 !important; /* Gris claro para diferenciar el área */
+      color: #1a1a1a !important;            /* Texto oscuro para asegurar lectura */
+      padding: 20px;
+      min-height: 80vh;
+      border: 1px solid #ccc;
+    }
+
+    #sidebar-target {
+      width: 250px;
+      min-height: 100vh;
+      background-color: #2c3e50;
+    }
+
+    /* Asegura que si el JS inyecta texto, este no sea blanco por defecto */
+    #content-area * {
+      color: #1a1a1a !important;
+    }
+  </style>
 </head>
 <body>
   <div id="app">
@@ -23,12 +52,19 @@
         </div>
       </div>
     </div>
+
     <div id="main-ui" class="main-ui">
-      <!-- Sidebar and content will be injected here -->
+      <aside id="sidebar-target"></aside>
+
+      <main id="content-area">
+        <div style="text-align: center; margin-top: 50px;">
+          <h2>Cargando módulos del sistema...</h2>
+          <p>Si este mensaje persiste, revisa la consola (F12).</p>
+        </div>
+      </main>
     </div>
   </div>
 
-  <!-- PWA Service Worker Registration -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -41,7 +77,6 @@
     }
   </script>
 
-  <!-- Core System Modules -->
   <script src="js/kernel/boot.js"></script>
   <script src="js/kernel/router.js"></script>
   <script src="js/kernel/data-loader.js"></script>
@@ -49,17 +84,14 @@
   <script src="js/terminal/terminal-core.js"></script>
   <script src="js/terminal/command-parser.js"></script>
   
-  <!-- UI Components -->
   <script src="js/ui/sidebar.js"></script>
   <script src="js/ui/dashboard.js"></script>
   
-  <!-- Education Modules -->
   <script src="js/modules/education-content.js"></script>
   <script src="js/modules/games.js"></script>
   <script src="js/modules/ai.js"></script>
   <script src="js/modules/support.js"></script>
   
-  <!-- App Initialization -->
   <script src="js/app.js"></script>
 </body>
 </html>
