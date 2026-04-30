@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="styles/main.css"/>
 
   <style>
-    /* Base OS layout */
     body {
       margin: 0;
       background: #0b0f14;
@@ -16,7 +15,6 @@
       overflow: hidden;
     }
 
-    /* Single app root (CRÍTICO) */
     #app {
       width: 100%;
       height: 100vh;
@@ -24,7 +22,6 @@
       flex-direction: column;
     }
 
-    /* Boot overlay */
     #boot-screen {
       position: fixed;
       inset: 0;
@@ -35,9 +32,14 @@
       justify-content: center;
       flex-direction: column;
       z-index: 9999;
+      gap: 12px;
     }
 
-    /* Optional UI polish */
+    #boot-screen img {
+      width: 120px;
+      height: auto;
+    }
+
     .hidden {
       display: none !important;
     }
@@ -46,22 +48,23 @@
 
 <body>
 
-  <!-- 🔥 SINGLE ROOT (OBLIGATORIO PARA EL ROUTER) -->
+  <!-- ROOT ÚNICO DEL SISTEMA -->
   <div id="app">
 
     <!-- BOOT SCREEN -->
     <div id="boot-screen">
+      
+      <!-- FIX DE RUTA (IMPORTANTE) -->
+      <!-- Correcto: imagen dentro de subcarpeta -->
+      <img src="images/logo.png" alt="KERNEL LOGO">
+
       <h1>🧠 K.E.R.N.E.L. EDU OS</h1>
       <p>Initializing system...</p>
     </div>
 
-    <!-- Router will inject EVERYTHING here -->
   </div>
 
-  <!-- ========================= -->
-  <!-- SCRIPTS (ORDER CRÍTICO)   -->
-  <!-- ========================= -->
-
+  <!-- CORE SCRIPTS -->
   <script src="js/kernel/boot.js" defer></script>
   <script src="js/kernel/router.js" defer></script>
   <script src="js/kernel/data-loader.js" defer></script>
@@ -72,30 +75,26 @@
 
   <script src="js/app.js" defer></script>
 
-  <!-- ========================= -->
-  <!-- BOOT CONTROL (SAFE)       -->
-  <!-- ========================= -->
+  <!-- SAFE BOOT CONTROL -->
   <script>
     (function () {
-      let bootDone = false;
+      let booted = false;
 
       window.addEventListener("DOMContentLoaded", () => {
-        console.log("[KERNEL] DOM ready");
+        if (booted) return;
+        booted = true;
 
-        // evita doble ejecución
-        if (bootDone) return;
-        bootDone = true;
+        console.log("[KERNEL] DOM Ready");
 
         setTimeout(() => {
           const boot = document.getElementById("boot-screen");
           if (boot) boot.classList.add("hidden");
 
-          // render inicial controlado SOLO por router
           if (window.KernelRouter) {
             window.KernelRouter.render("dashboard");
           }
 
-          console.log("[KERNEL] System ready");
+          console.log("[KERNEL] System online");
         }, 800);
       });
     })();
