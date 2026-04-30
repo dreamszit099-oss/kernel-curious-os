@@ -3,40 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#F0F8FF">
   <title>K.E.R.N.E.L. EDU OS</title>
   <link rel="stylesheet" href="styles/main.css">
-  
   <style>
-    /* Forzar que el layout sea visible y el texto sea oscuro */
-    #main-ui { 
-      display: flex !important; 
-      visibility: visible !important; 
-      min-height: 100vh;
-      background: #f0f0f0; 
-    }
-    
-    #sidebar-container {
-      width: 260px;
-      background: #1e90ff; /* Color acorde a tu logo */
-      min-height: 100vh;
-    }
-
-    /* El área donde DEBERÍA verse la info */
-    #main-content, .main-content, #content-area { 
-      flex: 1;
-      padding: 20px;
-      background: white !important;
-      color: #333 !important;
-      min-height: 100vh;
-    }
-
-    /* Estilo preventivo para que el texto inyectado no sea blanco */
-    main * { color: #333 !important; }
+    /* Forzar visibilidad y colores oscuros para evitar 'tinta invisible' */
+    #main-ui { display: flex !important; visibility: visible !important; min-height: 100vh; background: #f4f4f4; }
+    #sidebar-container { width: 250px; background: #2c3e50; color: white; }
+    #main-content { flex: 1; background: white !important; color: #1a1a1a !important; padding: 20px; }
+    /* Estilo para que cualquier cosa dentro del contenido sea negra */
+    #main-content *, #dashboard-container * { color: #1a1a1a !important; }
   </style>
 </head>
 <body>
-
   <div id="app">
     <div id="boot-screen" class="boot-screen">
       <div class="boot-content">
@@ -49,47 +27,58 @@
     <div id="main-ui" class="main-ui">
       
       <aside id="sidebar-container">
-          <div id="sidebar-target"></div>
+        <div id="sidebar-target"></div>
       </aside>
 
-      <main id="main-content" class="main-content">
+      <main id="main-content">
         
         <div id="dashboard-container"></div>
-        <div id="content-area"></div>
-        <div id="education-container"></div>
         
-        <div id="fallback-message" style="text-align:center; padding-top:50px;">
-            <h3>Sincronizando con el Kernel...</h3>
-            <p>Si la pantalla sigue blanca, el error está en la línea 54 de tu dashboard.js</p>
+        <div id="content-display"></div>
+        
+        <div id="education-container"></div>
+
+        <div id="loading-placeholder" style="text-align:center; padding-top:100px;">
+          <h2>Sincronizando con K.E.R.N.E.L....</h2>
+          <p>Si ves esto, los IDs ya están presentes. El sistema está intentando inyectar los datos.</p>
         </div>
       </main>
-
     </div>
   </div>
 
   <script src="js/kernel/boot.js"></script>
   <script src="js/kernel/router.js"></script>
   <script src="js/kernel/data-loader.js"></script>
-  
   <script src="js/ui/sidebar.js"></script>
   <script src="js/ui/dashboard.js"></script>
   <script src="js/modules/education-content.js"></script>
-  
   <script src="js/app.js"></script>
 
   <script>
-    window.onload = () => {
-      // Si a los 3 segundos sigue el mensaje de carga, quitamos el protector manualmente
+    // Este pequeño script crea los elementos si el router se olvida de ellos
+    (function() {
+      const checkAndFix = () => {
+        const main = document.getElementById('main-content');
+        if (main) {
+          // Si dashboard.js no encuentra su ID, lo creamos a la fuerza
+          if (!document.getElementById('dashboard-container')) {
+            const dash = document.createElement('div');
+            dash.id = 'dashboard-container';
+            main.appendChild(dash);
+          }
+        }
+      };
+      
+      // Ejecutar inmediatamente y a los 2 segundos
+      checkAndFix();
+      setTimeout(checkAndFix, 2000);
+
+      // Bypass de la pantalla de boot si se queda trabada
       setTimeout(() => {
         const boot = document.getElementById('boot-screen');
-        if(boot) boot.style.display = 'none';
-        
-        const main = document.getElementById('main-ui');
-        if(main) main.classList.remove('hidden');
-        
-        console.log("K.E.R.N.E.L. Recovery: Bypass de pantalla de carga ejecutado.");
-      }, 3000);
-    };
+        if (boot) boot.style.display = 'none';
+      }, 4000);
+    })();
   </script>
 </body>
 </html>
