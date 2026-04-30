@@ -1,41 +1,38 @@
 /**
- * K.E.R.N.E.L. View Registry
- * Centraliza TODAS las vistas del sistema
+ * K.E.R.N.E.L. View Registry (Base)
  */
 
 (function () {
-  if (!window.KernelRouter) {
-    console.warn("[REGISTRY] Router not found");
-    return;
-  }
+  const r = window.KernelRouter;
 
-  const register = (name, renderer) => {
-    window.KernelRouter.registerView(name, renderer);
+  if (!r) return;
+
+  const createView = (title, text) => {
+    const div = document.createElement("div");
+    div.style.padding = "20px";
+    div.innerHTML = `<h2>${title}</h2><p>${text}</p>`;
+    return div;
   };
 
-  // =========================
-  // CORE VIEWS
-  // =========================
-
-  register("dashboard", () => {
-    const div = document.createElement("div");
-    div.innerHTML = "<h2>🏠 Dashboard</h2>";
-    return div;
+  r.registerView("dashboard", () => {
+    if (window.DashboardView?.loader) {
+      const container = document.createElement("div");
+      window.DashboardView.loader(container);
+      return container;
+    }
+    return createView("Dashboard", "Loading...");
   });
 
-  register("ai", () => {
-    const div = document.createElement("div");
-    div.innerHTML = "<h2>🤖 AI Helper</h2><p>Offline assistant ready.</p>";
-    return div;
-  });
+  r.registerView("games", () =>
+    createView("🎮 Games", "Educational games coming soon.")
+  );
 
-  register("support", () => {
-    const div = document.createElement("div");
-    div.innerHTML = `
-      <h2>☕ Support</h2>
-      <p>This project runs on limited resources.</p>
-    `;
-    return div;
-  });
+  r.registerView("ai", () =>
+    createView("🤖 AI Helper", "Offline assistant ready.")
+  );
+
+  r.registerView("support", () =>
+    createView("☕ Support", "Built with limited resources.")
+  );
 
 })();
