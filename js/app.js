@@ -1,19 +1,20 @@
 /**
- * K.E.R.N.E.L. EDU OS - Application Initialization
- * Educational Operating System for Global Learning
+ * K.E.R.N.E.L. App Entry (Stable)
  */
 
-(async () => {
-  console.log('[APP] K.E.R.N.E.L. EDU OS initializing...');
+console.log("[APP] K.E.R.N.E.L. EDU OS initializing...");
 
-  // Boot sequence
-  await KernelBoot.initialize();
+// ❌ NO vuelvas a llamar initialize()
+// KernelBoot ya se auto-ejecuta
 
-  // Render sidebar and layout
-  SidebarUI.render();
+window.addEventListener("DOMContentLoaded", () => {
+  console.log("[APP] DOM ready");
 
-  // Load initial dashboard
-  await KernelRouter.render('dashboard');
-
-  console.log('[APP] K.E.R.N.E.L. EDU OS ready for learning');
-})();
+  // fallback seguro
+  setTimeout(() => {
+    if (window.KernelRouter?.getCurrentView?.() !== "dashboard") {
+      console.warn("[APP] Forcing dashboard render...");
+      window.KernelRouter?.render?.("dashboard");
+    }
+  }, 1200);
+});
