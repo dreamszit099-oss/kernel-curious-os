@@ -6,42 +6,31 @@
   <title>K.E.R.N.E.L. EDU OS</title>
   <link rel="stylesheet" href="styles/main.css">
   <style>
-    /* Forzar visibilidad y colores oscuros para evitar 'tinta invisible' */
-    #main-ui { display: flex !important; visibility: visible !important; min-height: 100vh; background: #f4f4f4; }
-    #sidebar-container { width: 250px; background: #2c3e50; color: white; }
-    #main-content { flex: 1; background: white !important; color: #1a1a1a !important; padding: 20px; }
-    /* Estilo para que cualquier cosa dentro del contenido sea negra */
-    #main-content *, #dashboard-container * { color: #1a1a1a !important; }
+    /* Forzar que el layout ocupe toda la pantalla y sea visible */
+    #main-ui { display: flex !important; visibility: visible !important; min-height: 100vh; background: #1a1a1a; }
+    #sidebar-container { width: 250px; background: #2c3e50; }
+    #main-content { flex: 1; background: #ffffff !important; padding: 20px; }
+    /* Texto negro para asegurar legibilidad */
+    #main-content * { color: #1a1a1a !important; }
   </style>
 </head>
 <body>
   <div id="app">
-    <div id="boot-screen" class="boot-screen">
-      <div class="boot-content">
-        <div class="boot-logo">🧠</div>
-        <div class="boot-text">K.E.R.N.E.L. EDU OS</div>
-        <div class="boot-progress"><div class="boot-progress-bar"></div></div>
-      </div>
+    <div id="boot-screen" class="boot-screen" style="position:fixed; z-index:9999; width:100%; height:100%; background:black; color:white; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+        <h1 style="color:white !important;">🧠 K.E.R.N.E.L.</h1>
+        <p style="color:white !important;">Iniciando sistema...</p>
     </div>
 
-    <div id="main-ui" class="main-ui">
-      
+    <div id="main-ui">
       <aside id="sidebar-container">
-        <div id="sidebar-target"></div>
+          <div id="sidebar-target"></div>
       </aside>
 
       <main id="main-content">
-        
-        <div id="dashboard-container"></div>
-        
-        <div id="content-display"></div>
-        
-        <div id="education-container"></div>
-
-        <div id="loading-placeholder" style="text-align:center; padding-top:100px;">
-          <h2>Sincronizando con K.E.R.N.E.L....</h2>
-          <p>Si ves esto, los IDs ya están presentes. El sistema está intentando inyectar los datos.</p>
-        </div>
+          <div id="dashboard-container"></div>
+          <div id="content-display"></div>
+          <div id="education-container"></div>
+          <div id="content-area"></div>
       </main>
     </div>
   </div>
@@ -55,29 +44,27 @@
   <script src="js/app.js"></script>
 
   <script>
-    // Este pequeño script crea los elementos si el router se olvida de ellos
     (function() {
-      const checkAndFix = () => {
-        const main = document.getElementById('main-content');
-        if (main) {
-          // Si dashboard.js no encuentra su ID, lo creamos a la fuerza
-          if (!document.getElementById('dashboard-container')) {
-            const dash = document.createElement('div');
-            dash.id = 'dashboard-container';
-            main.appendChild(dash);
-          }
+      console.log("K.E.R.N.E.L. Recovery System Active");
+
+      const bypass = () => {
+        // 1. Forzar cierre de pantalla de carga
+        const boot = document.getElementById('boot-screen');
+        if(boot) boot.style.display = 'none';
+
+        // 2. Si el dashboard falló por ser 'undefined', re-intentamos el render manual
+        const dashContainer = document.getElementById('dashboard-container');
+        if(dashContainer && dashContainer.innerHTML === "") {
+            console.warn("Re-intentando renderizado manual del Dashboard...");
+            // Intentamos llamar a la función global si existe
+            if(window.KernelRouter) {
+                window.KernelRouter.render('dashboard');
+            }
         }
       };
-      
-      // Ejecutar inmediatamente y a los 2 segundos
-      checkAndFix();
-      setTimeout(checkAndFix, 2000);
 
-      // Bypass de la pantalla de boot si se queda trabada
-      setTimeout(() => {
-        const boot = document.getElementById('boot-screen');
-        if (boot) boot.style.display = 'none';
-      }, 4000);
+      // Ejecutar a los 3 segundos para dar tiempo a que los scripts carguen
+      setTimeout(bypass, 3000);
     })();
   </script>
 </body>
