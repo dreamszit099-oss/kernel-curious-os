@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
 
@@ -15,7 +14,8 @@ export default function KernelCuriousPortal() {
 
   const runCommand = () => {
     let output = "";
-    switch (terminalInput.toLowerCase()) {
+
+    switch (terminalInput.toLowerCase().trim()) {
       case "help":
         output = "Commands: status | osint | optimize | clear";
         break;
@@ -29,14 +29,17 @@ export default function KernelCuriousPortal() {
         output = "Optimization layer: reducing memory footprint... DONE";
         break;
       case "clear":
-        setTerminalOutput([]);
+        setTerminalOutput([
+          "K.E.R.N.E.L. Curious initialized...",
+          "Type 'help' to explore commands"
+        ]);
         setTerminalInput("");
         return;
       default:
         output = `Unknown command: ${terminalInput}`;
     }
 
-    setTerminalOutput([...terminalOutput, "> " + terminalInput, output]);
+    setTerminalOutput((prev) => [...prev, "> " + terminalInput, output]);
     setTerminalInput("");
   };
 
@@ -79,36 +82,24 @@ export default function KernelCuriousPortal() {
         </Card>
       </div>
 
-      {/* VIDEO SECTION */}
-      <div className="mt-6">
-        <Card className="bg-zinc-900 border-green-500">
-          <CardContent>
-            <h2 className="text-lg mb-2">Vision Module</h2>
-            <div className="aspect-video bg-black border border-green-700 flex items-center justify-center">
-              <p>Video / Demo Placeholder</p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* INTERACTIVE TERMINAL */}
+      {/* TERMINAL */}
       <div className="mt-6">
         <Card className="bg-zinc-950 border-green-500">
           <CardContent>
             <h2 className="text-lg mb-2">Interactive Terminal</h2>
 
-            <div className="h-64 overflow-auto bg-black p-2 text-sm">
+            <div className="h-64 overflow-auto bg-black p-2 text-sm border border-green-700">
               {terminalOutput.map((line, i) => (
                 <div key={i}>{line}</div>
               ))}
             </div>
 
-            <div className="flex gap-2 mt-2">
+            <div className="flex gap-2 mt-3">
               <Input
                 value={terminalInput}
                 onChange={(e) => setTerminalInput(e.target.value)}
                 placeholder="Enter command..."
-                className="bg-black border-green-500"
+                className="bg-black border-green-500 text-green-400"
               />
               <Button onClick={runCommand}>Run</Button>
             </div>
@@ -117,7 +108,7 @@ export default function KernelCuriousPortal() {
       </div>
 
       {/* FOOTER */}
-      <div className="mt-6 text-xs opacity-70">
+      <div className="mt-6 text-xs opacity-60">
         MIT License | K.E.R.N.E.L. Curious Architecture Layer
       </div>
     </div>
