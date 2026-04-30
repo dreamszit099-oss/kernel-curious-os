@@ -17,7 +17,7 @@ const GamesModule = (() => {
     },
     patternGame: {
       name: 'Pattern Master',
-      icon: '🎯',
+      icon: '🎨',
       description: 'Repeat the Pattern',
     },
     quizMaster: {
@@ -29,13 +29,16 @@ const GamesModule = (() => {
 
   let currentGame = null;
   let gameState = {};
+  let mathScore = 0;
+  let mathStreak = 0;
+  let mathProblems = 0;
 
   const renderGamesMenu = (container) => {
     const html = `
       <div class="view-container active" id="view-games">
-        <div class="card">
-          <div class="card-title">🎮 Educational Games</div>
-          <div class="card-content">Choose a game to play and learn!</div>
+        <div class="card" style="background: linear-gradient(135deg, var(--color-warning), var(--color-primary));">
+          <div class="card-title" style="text-align: center; font-size: 24px;">🎮 Educational Games</div>
+          <div class="card-content" style="text-align: center; color: var(--text-dark);">Choose a game to play and learn!</div>
         </div>
         <div class="games-grid">
           ${Object.entries(games)
@@ -57,10 +60,6 @@ const GamesModule = (() => {
 
   // Math Challenge Game
   const mathChallenge = (() => {
-    let score = 0;
-    let streak = 0;
-    let problems = 0;
-
     const generateProblem = () => {
       const operations = ['+', '-'];
       const operation = operations[Math.floor(Math.random() * operations.length)];
@@ -80,19 +79,20 @@ const GamesModule = (() => {
     const render = (container) => {
       const { problem, answer } = generateProblem();
       gameState.currentProblem = { problem, answer };
-      problems++;
+      mathProblems++;
 
+      const progressPercent = (mathProblems / 10) * 100;
       const html = `
         <div class="view-container active" id="view-game-math">
           <div class="quiz-container">
-            <button class="btn" onclick="GamesModule.endGame()">← Back to Games</button>
+            <button class="btn" onclick="GamesModule.endGame()">⬅ Back to Games</button>
             <div style="margin: 20px 0;">
-              <div style="font-size: 14px; color: var(--text-dark);">Score: ${score} | Streak: ${streak}</div>
+              <div style="font-size: 14px; color: var(--text-dark); font-weight: bold; margin-bottom: 10px;">Score: ${mathScore} | Streak: ${mathStreak} | Question ${mathProblems}/10</div>
               <div class="progress-bar">
-                <div class="progress-fill" style="width: ${(problems / 10) * 100}%"></div>
+                <div class="progress-fill" style="width: ${progressPercent}%"></div>
               </div>
             </div>
-            <div class="math-problem">${problem}</div>
+            <div class="math-problem">${problem} = ?</div>
             <input type="number" id="mathAnswer" class="math-input" placeholder="Your answer" />
             <button class="btn btn-primary" onclick="GamesModule.checkMathAnswer()">Check Answer</button>
             <div id="mathFeedback"></div>
@@ -108,34 +108,70 @@ const GamesModule = (() => {
       const isCorrect = parseInt(userAnswer) === answer;
 
       if (isCorrect) {
-        score += 10;
-        streak++;
+        mathScore += 10;
+        mathStreak++;
       } else {
-        streak = 0;
+        mathStreak = 0;
       }
 
       const feedbackEl = document.getElementById('mathFeedback');
       if (feedbackEl) {
         if (isCorrect) {
-          feedbackEl.innerHTML = `<div class="feedback success">✓ Correct! Well done!</div>`;
+          feedbackEl.innerHTML = `<div class="feedback success" style="font-size: 18px; padding: 20px;">✓ Correct! Well done! 🎉</div>`;
           setTimeout(() => {
-            if (problems < 10) render(document.querySelector('.content-body'));
-          }, 800);
-        } else {
-          feedbackEl.innerHTML = `<div class="feedback error">✗ Wrong! The answer is ${answer}</div>`;
-          setTimeout(() => {
-            if (problems < 10) render(document.querySelector('.content-body'));
+            if (mathProblems < 10) render(document.querySelector('.content-body'));
+            else showMathResults();
           }, 1000);
+        } else {
+          feedbackEl.innerHTML = `<div class="feedback error" style="font-size: 18px; padding: 20px;">✗ Wrong! The answer is ${answer}</div>`;
+          setTimeout(() => {
+            if (mathProblems < 10) render(document.querySelector('.content-body'));
+            else showMathResults();
+          }, 1200);
         }
       }
+    };
+
+    const showResults = () => {
+      const container = document.querySelector('.content-body');
+      const stars = '⭐'.repeat(Math.ceil((mathScore / 100) * 5));
+      const html = `
+        <div class="view-container active">
+          <div class="quiz-container" style="text-align: center;">
+            <div style="font-size: 64px; margin-bottom: 20px;">🎉</div>
+            <div class="feedback success" style="font-size: 24px; padding: 20px; margin-bottom: 20px;">Game Complete!</div>
+            <div style="font-size: 32px; color: var(--color-primary); margin: 20px 0; font-weight: bold;">Score: ${mathScore}/100</div>
+            <div style="font-size: 28px; margin: 20px 0;">${stars}</div>
+            <button class="btn" onclick="GamesModule.endGame()" style="margin-top: 20px;">Back to Games</button>
+          </div>
+        </div>
+      `;
+      container.innerHTML = html;
     };
 
     return { render, checkAnswer };
   })();
 
+  const showMathResults = () => {
+    const container = document.querySelector('.content-body');
+    const stars = '⭐'.repeat(Math.ceil((mathScore / 100) * 5));
+    const html = `
+      <div class="view-container active">
+        <div class="quiz-container" style="text-align: center;">
+          <div style="font-size: 64px; margin-bottom: 20px;">🎉</div>
+          <div class="feedback success" style="font-size: 24px; padding: 20px; margin-bottom: 20px;">Math Challenge Complete!</div>
+          <div style="font-size: 32px; color: var(--color-primary); margin: 20px 0; font-weight: bold;">Final Score: ${mathScore}/100</div>
+          <div style="font-size: 28px; margin: 20px 0;">${stars}</div>
+          <button class="btn" onclick="GamesModule.endGame()" style="margin-top: 20px;">Back to Games</button>
+        </div>
+      </div>
+    `;
+    container.innerHTML = html;
+  };
+
   // Memory Match Game
   const memoryMatch = (() => {
-    const emojis = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼'];
+    const emojis = ['🐶', '🐱', '🐭', '🐴', '🐵', '🦊', '🐻', '🐼'];
     let cards = [];
     let flipped = [];
     let matched = [];
@@ -157,9 +193,9 @@ const GamesModule = (() => {
       const html = `
         <div class="view-container active" id="view-game-memory">
           <div class="quiz-container">
-            <button class="btn" onclick="GamesModule.endGame()">← Back to Games</button>
+            <button class="btn" onclick="GamesModule.endGame()">⬅ Back to Games</button>
             <div style="margin: 20px 0;">
-              <div style="font-size: 14px; color: var(--text-dark);">Score: ${score} | Moves: ${moves}</div>
+              <div style="font-size: 14px; color: var(--text-dark); font-weight: bold; margin-bottom: 10px;">Score: ${score} | Moves: ${moves}</div>
             </div>
             <div class="memory-grid" id="memoryGrid"></div>
             <div id="memoryFeedback"></div>
@@ -175,6 +211,7 @@ const GamesModule = (() => {
         card.dataset.index = index;
         card.dataset.emoji = emoji;
         card.textContent = '?';
+        card.style.cursor = 'pointer';
         card.onclick = () => flipCard(index, card);
         memoryGrid.appendChild(card);
       });
@@ -198,7 +235,9 @@ const GamesModule = (() => {
             document.querySelector(`[data-index="${idx2}"]`).classList.add('matched');
             flipped = [];
             if (matched.length === cards.length) {
-              document.getElementById('memoryFeedback').innerHTML = `<div class="feedback success">🎉 You won! Score: ${score}</div>`;
+              const feedbackDiv = document.getElementById('memoryFeedback');
+              const stars = '⭐'.repeat(Math.ceil((score / 80) * 5));
+              feedbackDiv.innerHTML = `<div class="feedback success" style="font-size: 18px; padding: 20px; margin-top: 20px;">🎉 You won! Score: ${score}<br>${stars}</div>`;
             }
           }, 500);
         } else {
@@ -221,7 +260,8 @@ const GamesModule = (() => {
     let sequence = [];
     let userSequence = [];
     let level = 1;
-    let colors = ['🔴', '🟢', '🔵', '🟡'];
+    let colors = ['🔴', '🟡', '🔵', '🟢'];
+    let gameActive = true;
 
     const generateNextColor = () => {
       return colors[Math.floor(Math.random() * colors.length)];
@@ -230,19 +270,21 @@ const GamesModule = (() => {
     const render = (container) => {
       sequence = [generateNextColor()];
       userSequence = [];
+      gameActive = true;
 
       const html = `
         <div class="view-container active" id="view-game-pattern">
           <div class="quiz-container">
-            <button class="btn" onclick="GamesModule.endGame()">← Back to Games</button>
+            <button class="btn" onclick="GamesModule.endGame()">⬅ Back to Games</button>
             <div style="margin: 20px 0;">
-              <div style="font-size: 14px; color: var(--text-dark);">Level: ${level}</div>
+              <div style="font-size: 14px; color: var(--text-dark); font-weight: bold;">Level: ${level}</div>
             </div>
             <div style="padding: 20px; background: rgba(0,0,0,0.05); border-radius: 8px; margin-bottom: 20px;">
-              <div style="font-size: 14px; margin-bottom: 10px;">Watch the sequence and repeat it:</div>
+              <div style="font-size: 14px; margin-bottom: 10px; font-weight: bold; color: var(--text-dark);">Watch the sequence and repeat it:</div>
               <div class="pattern-display" id="patternDisplay"></div>
             </div>
-            <button class="btn btn-primary" onclick="GamesModule.playPatternSequence()">Play Sequence Again</button>
+            <button class="btn btn-primary" onclick="GamesModule.playPatternSequence()">▶ Play Sequence</button>
+            <div id="patternFeedback" style="margin-top: 20px;"></div>
           </div>
         </div>
       `;
@@ -257,13 +299,14 @@ const GamesModule = (() => {
       display.innerHTML = colors
         .map(
           (color, idx) => `
-        <div class="pattern-box" onclick="GamesModule.selectPatternColor(${idx})">${color}</div>
+        <div class="pattern-box" onclick="GamesModule.selectPatternColor(${idx})" style="font-size: 48px;">${color}</div>
       `
         )
         .join('');
     };
 
     const playPatternSequence = () => {
+      gameActive = false;
       let delay = 0;
       sequence.forEach((color, idx) => {
         setTimeout(() => {
@@ -274,16 +317,23 @@ const GamesModule = (() => {
         }, delay);
         delay += 600;
       });
+      setTimeout(() => {
+        gameActive = true;
+      }, delay);
     };
 
     const selectColor = (colorIdx) => {
+      if (!gameActive) return;
+      
       userSequence.push(colors[colorIdx]);
       const boxes = document.querySelectorAll('.pattern-box');
       boxes[colorIdx].classList.add('active');
       setTimeout(() => boxes[colorIdx].classList.remove('active'), 300);
 
       if (userSequence[userSequence.length - 1] !== sequence[userSequence.length - 1]) {
-        document.querySelector('.quiz-container').innerHTML += '<div class="feedback error">✗ Game Over! You made a mistake.</div>';
+        const feedbackDiv = document.getElementById('patternFeedback');
+        feedbackDiv.innerHTML = `<div class="feedback error" style="font-size: 18px; padding: 20px;">✗ Game Over! You made a mistake at Level ${level}</div>`;
+        gameActive = false;
         return;
       }
 
@@ -293,7 +343,7 @@ const GamesModule = (() => {
           sequence.push(generateNextColor());
           userSequence = [];
           render(document.querySelector('.content-body'));
-        }, 800);
+        }, 1000);
       }
     };
 
@@ -315,14 +365,15 @@ const GamesModule = (() => {
 
     const render = (container) => {
       if (currentQ >= quizzes.length) {
+        const stars = '⭐'.repeat(Math.ceil((score / 5) * 5));
         const html = `
           <div class="view-container active">
-            <div class="quiz-container">
-              <div style="text-align: center;">
-                <div class="feedback success" style="font-size: 24px;">🎉 Quiz Complete!</div>
-                <div style="font-size: 32px; color: var(--color-primary); margin: 20px 0;">Score: ${score}/${quizzes.length}</div>
-                <button class="btn" onclick="GamesModule.endGame()">Back to Games</button>
-              </div>
+            <div class="quiz-container" style="text-align: center;">
+              <div style="font-size: 64px; margin-bottom: 20px;">🎉</div>
+              <div class="feedback success" style="font-size: 24px; padding: 20px; margin-bottom: 20px;">Quiz Complete!</div>
+              <div style="font-size: 32px; color: var(--color-primary); margin: 20px 0; font-weight: bold;">Score: ${score}/${quizzes.length}</div>
+              <div style="font-size: 28px; margin: 20px 0;">${stars}</div>
+              <button class="btn" onclick="GamesModule.endGame()" style="margin-top: 20px;">Back to Games</button>
             </div>
           </div>
         `;
@@ -334,9 +385,8 @@ const GamesModule = (() => {
       const html = `
         <div class="view-container active" id="view-game-quiz">
           <div class="quiz-container">
-            <div style="font-size: 14px; color: var(--text-dark); margin-bottom: 20px;">
-              Question ${currentQ + 1} of ${quizzes.length}
-            </div>
+            <button class="btn" onclick="GamesModule.endGame()" style="margin-bottom: 15px;">⬅ Back to Games</button>
+            <div style="font-size: 14px; color: var(--text-dark); margin-bottom: 15px; font-weight: bold;">Question ${currentQ + 1} of ${quizzes.length}</div>
             <div class="progress-bar">
               <div class="progress-fill" style="width: ${((currentQ + 1) / quizzes.length) * 100}%"></div>
             </div>
@@ -375,33 +425,45 @@ const GamesModule = (() => {
       setTimeout(() => {
         currentQ++;
         render(document.querySelector('.content-body'));
-      }, 800);
+      }, 1000);
     };
 
     return { render, selectOption };
   })();
 
   const startGame = (gameKey) => {
+    const header = document.querySelector('.content-header h2');
     const contentBody = document.querySelector('.content-body');
+    
+    mathScore = 0;
+    mathStreak = 0;
+    mathProblems = 0;
+
     switch (gameKey) {
       case 'mathChallenge':
+        if (header) header.textContent = '🧮 Math Challenge';
         mathChallenge.render(contentBody);
         break;
       case 'memoryMatch':
+        if (header) header.textContent = '🎴 Memory Match';
         memoryMatch.render(contentBody);
         break;
       case 'patternGame':
+        if (header) header.textContent = '🎨 Pattern Master';
         patternGame.render(contentBody);
         break;
       case 'quizMaster':
+        if (header) header.textContent = '❓ Quiz Master';
         quizMaster.render(contentBody);
         break;
     }
   };
 
   const checkMathAnswer = () => {
-    const answer = document.getElementById('mathAnswer').value;
-    mathChallenge.checkAnswer(answer);
+    const answer = document.getElementById('mathAnswer')?.value;
+    if (answer !== undefined) {
+      mathChallenge.checkAnswer(answer);
+    }
   };
 
   const selectPatternColor = (colorIdx) => {
@@ -413,18 +475,13 @@ const GamesModule = (() => {
   };
 
   const playPatternSequence = () => {
-    const contentBody = document.querySelector('.content-body');
-    const display = contentBody.querySelector('.pattern-display');
-    if (display) {
-      const boxes = display.querySelectorAll('.pattern-box');
-      boxes.forEach((box) => box.classList.remove('active'));
-      setTimeout(() => patternGame.render(contentBody), 100);
-    }
+    patternGame.render(document.querySelector('.content-body'));
   };
 
   const endGame = () => {
-    const contentBody = document.querySelector('.content-body');
-    loader(contentBody);
+    const header = document.querySelector('.content-header h2');
+    if (header) header.textContent = '🎮 Educational Games';
+    loader(document.querySelector('.content-body'));
   };
 
   const loader = (container) => {

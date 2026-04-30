@@ -1,6 +1,6 @@
 /**
  * K.E.R.N.E.L. EDU OS - Education Content Module
- * Age-based educational content
+ * Age-based educational content with full display
  */
 
 const EducationContentModule = (() => {
@@ -16,7 +16,7 @@ const EducationContentModule = (() => {
         },
         {
           title: 'Shapes Around Us',
-          content: 'Circle ⭕, Square ▪️, Triangle 🔺, Rectangle ▭. Look for shapes everywhere!',
+          content: 'Circle ⭕, Square ⬜, Triangle 🔺, Rectangle ▭. Look for shapes everywhere!',
           icon: '🔷',
         },
         {
@@ -26,7 +26,7 @@ const EducationContentModule = (() => {
         },
         {
           title: 'Animals',
-          content: 'Dogs 🐕, Cats 🐱, Birds 🐦, Fish 🐟, Elephants 🐘, Lions 🦁. Do you like animals?',
+          content: 'Dogs 🐕, Cats 🐈, Birds 🐦, Fish 🐟, Elephants 🐘, Lions 🦁. Do you like animals?',
           icon: '🦁',
         },
       ],
@@ -73,7 +73,7 @@ const EducationContentModule = (() => {
         },
         {
           title: 'Physics Fundamentals',
-          content: 'Physics explains how things move and work. Gravity pulls objects down 📍. Energy makes things happen ⚡.',
+          content: 'Physics explains how things move and work. Gravity pulls objects down 📎. Energy makes things happen ⚡.',
           icon: '⚡',
         },
         {
@@ -88,9 +88,9 @@ const EducationContentModule = (() => {
   const renderEducation = (container) => {
     const html = `
       <div class="view-container active" id="view-education">
-        <div class="card">
-          <div class="card-title">📚 Educational Content</div>
-          <div class="card-content">Choose your level and start learning!</div>
+        <div class="card" style="background: linear-gradient(135deg, var(--color-primary), var(--color-warning));">
+          <div class="card-title" style="text-align: center; font-size: 24px;">📚 Educational Content</div>
+          <div class="card-content" style="text-align: center; color: var(--text-dark);">Choose your level and start learning!</div>
         </div>
         <div class="grid">
           ${['kindergarten', 'primary', 'secondary']
@@ -116,15 +116,15 @@ const EducationContentModule = (() => {
 
     const lessonsHTML = `
       <div style="margin-top: 30px;">
-        <h3 style="color: var(--color-secondary); margin-bottom: 15px; font-size: 24px;">${content[level].title} - Lessons</h3>
-        <div class="grid">
+        <h3 style="color: var(--color-secondary); margin-bottom: 20px; font-size: 26px; text-align: center;">${content[level].title} - Lessons</h3>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
           ${lessons
             .map(
               (lesson, idx) => `
-            <div class="card">
-              <div style="font-size: 32px; margin-bottom: 10px;">${lesson.icon}</div>
-              <div class="card-title">${lesson.title}</div>
-              <div class="card-content">${lesson.content}</div>
+            <div class="card" style="border: 4px solid var(--color-accent);">
+              <div style="font-size: 48px; margin-bottom: 15px; text-align: center;">${lesson.icon}</div>
+              <div class="card-title" style="text-align: center; font-size: 18px;">${lesson.title}</div>
+              <div class="card-content" style="text-align: center; color: var(--text-dark); font-size: 14px;">${lesson.content}</div>
             </div>
           `
             )
@@ -136,6 +136,8 @@ const EducationContentModule = (() => {
   };
 
   const loader = (container) => {
+    const header = document.querySelector('.content-header h2');
+    if (header) header.textContent = '📚 Educational Content';
     renderEducation(container);
   };
 
