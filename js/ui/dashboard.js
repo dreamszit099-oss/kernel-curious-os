@@ -1,19 +1,25 @@
 /**
- * K.E.R.N.E.L. EDU OS - Dashboard (Refactored)
- * Stable OS-like renderer (safe DOM creation, no fragile innerHTML dependency)
+ * K.E.R.N.E.L. EDU OS - Dashboard
+ * Router-compatible renderer (NO container dependency)
+ * Fully modular OS-style view
  */
 
 const DashboardView = (() => {
 
-  // Helper: create element safely
-  const el = (tag, className, innerHTML) => {
+  // =========================
+  // SAFE ELEMENT CREATOR
+  // =========================
+  const el = (tag, className, html) => {
     const node = document.createElement(tag);
     if (className) node.className = className;
-    if (innerHTML !== undefined) node.innerHTML = innerHTML;
+    if (html !== undefined) node.innerHTML = html;
     return node;
   };
 
-  const createCard = () => {
+  // =========================
+  // HERO CARD
+  // =========================
+  const createHero = () => {
     const card = el("div", "card");
     card.style.background =
       "linear-gradient(135deg, var(--color-primary), var(--color-accent))";
@@ -35,12 +41,12 @@ const DashboardView = (() => {
       "div",
       "card-content",
       `
-      <p style="text-align:center;">
-        Your offline learning platform where education is accessible to everyone.
-      </p>
-      <p style="margin-top:15px; font-weight:bold; text-align:center;">
-        Pick what you want to do:
-      </p>
+        <p style="text-align:center;">
+          Offline-first education system for global learning.
+        </p>
+        <p style="margin-top:15px; font-weight:bold; text-align:center;">
+          Choose an option below:
+        </p>
       `
     );
 
@@ -51,33 +57,20 @@ const DashboardView = (() => {
     return card;
   };
 
+  // =========================
+  // NAV GRID
+  // =========================
   const createGrid = () => {
     const grid = el("div", "grid");
 
     const items = [
-      {
-        icon: "📚",
-        title: "Learn",
-        desc: "Find lessons for your level",
-        view: "education"
-      },
-      {
-        icon: "🎮",
-        title: "Games",
-        desc: "Play and learn together",
-        view: "games"
-      },
-      {
-        icon: "🤖",
-        title: "AI Helper",
-        desc: "Ask questions anytime",
-        view: "ai"
-      }
+      { icon: "📚", title: "Learn", desc: "Lessons by level", view: "education" },
+      { icon: "🎮", title: "Games", desc: "Play & learn", view: "games" },
+      { icon: "🤖", title: "AI Helper", desc: "Ask questions", view: "ai" }
     ];
 
     items.forEach(item => {
       const card = el("div", "game-card");
-      card.style.cursor = "pointer";
 
       card.innerHTML = `
         <div class="game-icon">${item.icon}</div>
@@ -86,9 +79,7 @@ const DashboardView = (() => {
       `;
 
       card.addEventListener("click", () => {
-        if (window.KernelRouter?.render) {
-          window.KernelRouter.render(item.view);
-        }
+        window.KernelRouter?.render?.(item.view);
       });
 
       grid.appendChild(card);
@@ -97,7 +88,10 @@ const DashboardView = (() => {
     return grid;
   };
 
-  const createInfoBlock = () => {
+  // =========================
+  // INFO BLOCK
+  // =========================
+  const createInfo = () => {
     const block = el("div");
     block.style.background =
       "linear-gradient(135deg, rgba(255,215,0,0.15), rgba(50,205,50,0.15))";
@@ -111,17 +105,20 @@ const DashboardView = (() => {
         ✨ Why K.E.R.N.E.L. EDU OS?
       </div>
       <ul style="list-style:none; padding:0;">
-        <li>✅ Works offline - no internet needed</li>
-        <li>✅ Free for everyone</li>
-        <li>✅ For kids and teachers</li>
-        <li>✅ Runs on any computer</li>
+        <li>✅ Works offline</li>
+        <li>✅ Free access learning</li>
+        <li>✅ Designed for kids & teachers</li>
+        <li>✅ Runs on low-end devices</li>
       </ul>
     `;
 
     return block;
   };
 
-  const createMissionBlock = () => {
+  // =========================
+  // MISSION BLOCK
+  // =========================
+  const createMission = () => {
     const block = el("div");
     block.style.background =
       "linear-gradient(135deg, rgba(30,144,255,0.15), rgba(0,206,209,0.15))";
@@ -130,10 +127,10 @@ const DashboardView = (() => {
     block.style.padding = "20px";
     block.style.marginTop = "20px";
 
-    const button = el("button", "btn", "Learn More About Our Mission");
-    button.style.marginTop = "15px";
+    const btn = el("button", "btn", "Learn More About Our Mission");
+    btn.style.marginTop = "15px";
 
-    button.addEventListener("click", () => {
+    btn.addEventListener("click", () => {
       window.KernelRouter?.render?.("support");
     });
 
@@ -142,47 +139,47 @@ const DashboardView = (() => {
         🌍 Global Education for All
       </div>
       <p>
-        This project supports education in communities with limited resources.
-        Learn anytime, anywhere, without needing the internet.
+        Built with limited resources to support education in low-connectivity environments.
       </p>
     `;
 
-    block.appendChild(button);
+    block.appendChild(btn);
 
     return block;
   };
 
-  const render = (container) => {
-    // 🔐 FIX PRINCIPAL DE TU ERROR
-    if (!container) {
-      console.warn("[Dashboard] container is undefined");
-      return;
-    }
-
-    container.innerHTML = "";
-
-    const wrapper = el("div", "view-container active");
+  // =========================
+  // RENDER (NO CONTAINER)
+  // =========================
+  const renderer = () => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "view-container active";
     wrapper.id = "view-dashboard";
 
-    wrapper.appendChild(createCard());
+    wrapper.appendChild(createHero());
     wrapper.appendChild(createGrid());
-    wrapper.appendChild(createInfoBlock());
-    wrapper.appendChild(createMissionBlock());
+    wrapper.appendChild(createInfo());
+    wrapper.appendChild(createMission());
 
-    container.appendChild(wrapper);
+    return wrapper;
   };
 
-  const loader = (container) => {
+  // =========================
+  // OPTIONAL LOADER
+  // =========================
+  const loader = async () => {
     const header = document.querySelector(".content-header h2");
-    if (header) header.textContent = "🏠 Welcome to K.E.R.N.E.L. EDU OS";
-
-    render(container);
+    if (header) header.textContent = "🏠 K.E.R.N.E.L. EDU OS";
   };
 
-  return { loader };
+  return { renderer, loader };
 })();
 
-// Register safely
-if (window.KernelRouter?.registerView) {
-  window.KernelRouter.registerView("dashboard", null, DashboardView.loader);
-}
+// =========================
+// REGISTER VIEW (ROUTER V2)
+// =========================
+window.KernelRouter?.registerView(
+  "dashboard",
+  DashboardView.renderer,
+  DashboardView.loader
+);
