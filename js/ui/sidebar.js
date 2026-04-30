@@ -1,6 +1,6 @@
 /**
- * K.E.R.N.E.L. Sidebar Component
- * Navigation menu for system views
+ * K.E.R.N.E.L. EDU OS - Sidebar Navigation Component
+ * Child-friendly navigation menu
  */
 
 const SidebarUI = (() => {
@@ -10,18 +10,19 @@ const SidebarUI = (() => {
     const sidebar = document.createElement('div');
     sidebar.className = 'sidebar';
     sidebar.innerHTML = `
-      <div class="sidebar-title">K.E.R.N.E.L EDU</div>
-      <div style="font-size: 10px; color: var(--text-secondary); margin-bottom: 16px; text-transform: uppercase;">Operating System</div>
-      <div class="sidebar-menu">
-        <button class="sidebar-item active" data-view="dashboard">Dashboard</button>
-        <button class="sidebar-item" data-view="wiki">Wiki</button>
-        <button class="sidebar-item" data-view="ai">AI Assistant</button>
-        <button class="sidebar-item" data-view="education">Education</button>
-        <button class="sidebar-item" data-view="terminal">Terminal</button>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+        <div class="sidebar-logo">🧠</div>
+        <div>
+          <div class="sidebar-title" style="margin: 0;">KERNEL</div>
+          <div style="font-size: 10px; color: rgba(255, 215, 0, 0.8); margin: 0;">EDU OS</div>
+        </div>
       </div>
-      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color); font-size: 10px; color: var(--text-secondary);">
-        <div id="kiosk-status" style="margin-bottom: 8px;">MODE: STUDENT</div>
-        <div style="font-size: 9px;">Offline Mode</div>
+      <div class="sidebar-menu">
+        <button class="sidebar-item active" data-view="dashboard">🏠 Dashboard</button>
+        <button class="sidebar-item" data-view="education">📚 Learn</button>
+        <button class="sidebar-item" data-view="games">🎮 Games</button>
+        <button class="sidebar-item" data-view="ai">🤖 AI Help</button>
+        <button class="sidebar-item" data-view="support">💙 Support</button>
       </div>
     `;
 
@@ -29,10 +30,13 @@ const SidebarUI = (() => {
     contentWrapper.style.flex = '1';
     contentWrapper.style.display = 'flex';
     contentWrapper.style.flexDirection = 'column';
+    contentWrapper.style.overflow = 'hidden';
     contentWrapper.innerHTML = `
-      <div class="content-header"><h2>Dashboard</h2></div>
+      <div class="content-header">
+        <h2 id="page-title">Welcome to K.E.R.N.E.L. EDU OS</h2>
+      </div>
       <div class="content-body"></div>
-      <div class="footer">MIT License | K.E.R.N.E.L. EDU OS v0.2.0 | Offline-First Educational OS</div>
+      <div class="footer">🌍 Open-Source Educational OS | Offline-First Learning | For Global Education Access</div>
     `;
 
     mainUI.innerHTML = '';
@@ -43,24 +47,11 @@ const SidebarUI = (() => {
     document.querySelectorAll('.sidebar-item').forEach((item) => {
       item.addEventListener('click', () => {
         const view = item.dataset.view;
-        if (KioskMode.canAccessView(view)) {
-          KernelRouter.render(view);
-        } else {
-          console.warn(`[KIOSK] Access denied to view: ${view}`);
-        }
+        document.querySelectorAll('.sidebar-item').forEach((i) => i.classList.remove('active'));
+        item.classList.add('active');
+        KernelRouter.render(view);
       });
     });
-
-    // Update kiosk status
-    const updateKioskStatus = () => {
-      const modeInfo = KioskMode.getModeInfo();
-      const statusEl = document.getElementById('kiosk-status');
-      if (statusEl) {
-        statusEl.textContent = `MODE: ${modeInfo.mode.toUpperCase()}`;
-      }
-    };
-
-    updateKioskStatus();
   };
 
   return {

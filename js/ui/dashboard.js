@@ -1,78 +1,65 @@
 /**
- * K.E.R.N.E.L. Dashboard View
- * System control panel and status overview
+ * K.E.R.N.E.L. EDU OS - Dashboard
+ * Child-friendly home screen
  */
 
 const DashboardView = (() => {
-  const render = (data) => {
+  const render = (container) => {
     const html = `
       <div class="view-container active" id="view-dashboard">
-        <div class="panel-grid">
-          <div class="panel">
-            <div class="panel-title">System Status</div>
-            <div class="panel-content">
-              ${data.systemStatus.map(s => `<div>✓ ${s}</div>`).join('')}
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-title">Resource Usage</div>
-            <div class="panel-content">
-              ${data.resources.map(r => `<div>${r.name}: ${r.usage}</div>`).join('')}
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-title">Kernel Status</div>
-            <div class="panel-content">
-              <div>Version: ${data.kernelVersion}</div>
-              <div>Uptime: ${data.uptime}</div>
-            </div>
+        <div class="card">
+          <div style="font-size: 48px; margin-bottom: 10px;">🎓</div>
+          <div class="card-title">Welcome to K.E.R.N.E.L. EDU OS!</div>
+          <div class="card-content">
+            <p>Your offline learning platform where education is accessible to everyone.</p>
+            <p style="margin-top: 15px;">Pick what you want to do:</p>
           </div>
         </div>
-        
-        <div class="panel-grid">
-          <div class="panel">
-            <div class="panel-title">Active Projects</div>
-            <div class="panel-content" id="projects-list"></div>
+
+        <div class="grid">
+          <div class="game-card" onclick="KernelRouter.render('education')" style="cursor: pointer;">
+            <div class="game-icon">📚</div>
+            <div class="game-title">Learn</div>
+            <div class="game-description">Find lessons for your level</div>
           </div>
-          <div class="panel">
-            <div class="panel-title">Terminal Access</div>
-            <div class="panel-content">
-              <div>Access the terminal view for direct kernel commands</div>
-              <button class="sidebar-item" style="margin-top: 12px; width: 100%;" onclick="KernelRouter.render('terminal')">Open Terminal</button>
-            </div>
+          <div class="game-card" onclick="KernelRouter.render('games')" style="cursor: pointer;">
+            <div class="game-icon">🎮</div>
+            <div class="game-title">Games</div>
+            <div class="game-description">Play and learn together</div>
           </div>
+          <div class="game-card" onclick="KernelRouter.render('ai')" style="cursor: pointer;">
+            <div class="game-icon">🤖</div>
+            <div class="game-title">AI Helper</div>
+            <div class="game-description">Ask questions anytime</div>
+          </div>
+        </div>
+
+        <div style="background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(50,205,50,0.1)); border: 3px solid var(--color-primary); border-radius: 12px; padding: 20px; margin-top: 20px;">
+          <div style="font-size: 20px; margin-bottom: 10px;">✨ Why K.E.R.N.E.L. EDU OS?</div>
+          <ul style="list-style: none; padding: 0;">
+            <li style="padding: 8px 0;">✅ Works offline - no internet needed</li>
+            <li style="padding: 8px 0;">✅ Free for everyone</li>
+            <li style="padding: 8px 0;">✅ For kids and teachers</li>
+            <li style="padding: 8px 0;">✅ Runs on any computer</li>
+          </ul>
+        </div>
+
+        <div style="background: linear-gradient(135deg, rgba(30,144,255,0.1), rgba(0,206,209,0.1)); border: 3px solid var(--color-secondary); border-radius: 12px; padding: 20px; margin-top: 20px;">
+          <div style="font-size: 20px; margin-bottom: 10px;">🌍 Global Education for All</div>
+          <p>This project supports education in communities with limited resources. Learn anytime, anywhere, without needing the internet.</p>
+          <button class="btn" style="margin-top: 15px;" onclick="KernelRouter.render('support')">Learn More About Our Mission</button>
         </div>
       </div>
     `;
-    return html;
+    container.innerHTML = html;
   };
 
-  const loader = async () => {
-    const status = await KernelDataLoader.getStatus();
-    const projects = await KernelDataLoader.getProjects();
-    
-    const contentBody = document.querySelector('.content-body');
-    if (!status) {
-      contentBody.innerHTML = '<div class="panel"><div class="panel-title">Error</div><div class="panel-content">Unable to load dashboard data</div></div>';
-      return;
-    }
-
-    contentBody.innerHTML = render(status);
-
-    // Populate projects
-    if (projects) {
-      const projectsList = document.getElementById('projects-list');
-      if (projectsList) {
-        projectsList.innerHTML = projects.projects
-          .map(p => `<div class="status-badge ${p.status === 'ACTIVE' ? '' : 'inactive'}">${p.name}: ${p.status}</div>`)
-          .join('');
-      }
-    }
+  const loader = (container) => {
+    document.getElementById('page-title').textContent = 'Welcome to K.E.R.N.E.L. EDU OS';
+    render(container);
   };
 
-  return {
-    loader,
-  };
+  return { loader };
 })();
 
 KernelRouter.registerView('dashboard', null, DashboardView.loader);

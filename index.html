@@ -3,26 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#05070a">
-  <meta name="description" content="K.E.R.N.E.L. EDU OS - Offline-first Educational Operating System">
+  <meta name="theme-color" content="#F0F8FF">
+  <meta name="description" content="K.E.R.N.E.L. EDU OS - Offline-first Educational Operating System for Global Learning">
   <title>K.E.R.N.E.L. EDU OS</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%2305070a' width='192' height='192'/><text x='50%' y='50%' font-size='120' fill='%237ee787' font-family='monospace' font-weight='bold' text-anchor='middle' dominant-baseline='middle'>K</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23FFD700' width='192' height='192'/><text x='50%' y='50%' font-size='120' fill='%231E90FF' font-family='sans-serif' font-weight='bold' text-anchor='middle' dominant-baseline='middle'>K</text></svg>">
   <link rel="stylesheet" href="styles/main.css">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect fill='%2305070a' width='64' height='64'/><text x='50%' y='50%' font-size='40' fill='%237ee787' font-family='monospace' font-weight='bold' text-anchor='middle' dominant-baseline='middle'>K</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect fill='%23FFD700' width='64' height='64'/><text x='50%' y='50%' font-size='40' fill='%231E90FF' font-family='sans-serif' font-weight='bold' text-anchor='middle' dominant-baseline='middle'>K</text></svg>">
 </head>
 <body>
   <div id="app">
     <div id="boot-screen" class="boot-screen">
       <div class="boot-content">
-        <div class="boot-text">Initializing K.E.R.N.E.L. EDU OS...</div>
+        <div class="boot-logo">🧠</div>
+        <div class="boot-text">K.E.R.N.E.L. EDU OS</div>
+        <div class="boot-text" style="font-size: 16px; letter-spacing: 2px;">Learning Starts Here</div>
         <div class="boot-progress">
           <div class="boot-progress-bar"></div>
         </div>
       </div>
     </div>
     <div id="main-ui" class="main-ui hidden">
-      <!-- Sidebar will be injected here -->
+      <!-- Sidebar and content will be injected here -->
     </div>
   </div>
 
@@ -31,7 +33,7 @@
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js').then((reg) => {
-          console.log('[PWA] Service worker registered:', reg);
+          console.log('[PWA] Service worker registered');
         }).catch((err) => {
           console.error('[PWA] Service worker registration failed:', err);
         });
@@ -46,11 +48,18 @@
   <script src="js/kernel/kiosk-mode.js"></script>
   <script src="js/terminal/terminal-core.js"></script>
   <script src="js/terminal/command-parser.js"></script>
+  
+  <!-- UI Components -->
   <script src="js/ui/sidebar.js"></script>
   <script src="js/ui/dashboard.js"></script>
-  <script src="js/modules/wiki.js"></script>
+  
+  <!-- Education Modules -->
+  <script src="js/modules/education-content.js"></script>
+  <script src="js/modules/games.js"></script>
   <script src="js/modules/ai.js"></script>
-  <script src="js/modules/education.js"></script>
+  <script src="js/modules/support.js"></script>
+  
+  <!-- App Initialization -->
   <script src="js/app.js"></script>
 </body>
 </html>
