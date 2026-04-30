@@ -4,112 +4,92 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#F0F8FF">
-  <meta name="description" content="K.E.R.N.E.L. EDU OS - Offline-first Educational Operating System for Global Learning">
   <title>K.E.R.N.E.L. EDU OS</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23FFD700' width='192' height='192'/><text x='50%' y='50%' font-size='120' fill='%231E90FF' font-family='sans-serif' font-weight='bold' text-anchor='middle' dominant-baseline='middle'>K</text></svg>">
   <link rel="stylesheet" href="styles/main.css">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect fill='%23FFD700' width='64' height='64'/><text x='50%' y='50%' font-size='40' fill='%231E90FF' font-family='sans-serif' font-weight='bold' text-anchor='middle' dominant-baseline='middle'>K</text></svg>">
   
   <style>
-    /* CSS de Emergencia para depuración de visibilidad */
+    /* Forzar que el layout sea visible y el texto sea oscuro */
     #main-ui { 
       display: flex !important; 
       visibility: visible !important; 
       min-height: 100vh;
-      background-color: #f4f4f4; /* Fondo claro para ver los textos */
+      background: #f0f0f0; 
     }
     
-    /* Contenedor del Sidebar */
-    #sidebar-container, #sidebar-target {
-      width: 250px;
+    #sidebar-container {
+      width: 260px;
+      background: #1e90ff; /* Color acorde a tu logo */
       min-height: 100vh;
-      background-color: #2c3e50;
-      color: white;
     }
 
-    /* Contenedor de Contenido Principal */
-    #main-content, #content-area { 
+    /* El área donde DEBERÍA verse la info */
+    #main-content, .main-content, #content-area { 
       flex: 1;
-      background-color: #ffffff !important; 
-      color: #1a1a1a !important;            
       padding: 20px;
-      min-height: 80vh;
+      background: white !important;
+      color: #333 !important;
+      min-height: 100vh;
     }
 
-    /* Forzar que cualquier texto inyectado sea legible (Negro) */
-    #main-content *, #content-area * {
-      color: #1a1a1a !important;
-    }
-
-    /* Estilo para los botones del dashboard si llegan a cargar */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-    }
+    /* Estilo preventivo para que el texto inyectado no sea blanco */
+    main * { color: #333 !important; }
   </style>
 </head>
 <body>
+
   <div id="app">
     <div id="boot-screen" class="boot-screen">
       <div class="boot-content">
         <div class="boot-logo">🧠</div>
         <div class="boot-text">K.E.R.N.E.L. EDU OS</div>
-        <div class="boot-text" style="font-size: 16px; letter-spacing: 2px;">Learning Starts Here</div>
-        <div class="boot-progress">
-          <div class="boot-progress-bar"></div>
-        </div>
+        <div class="boot-progress"><div class="boot-progress-bar"></div></div>
       </div>
     </div>
 
     <div id="main-ui" class="main-ui">
       
       <aside id="sidebar-container">
-        <div id="sidebar-target"></div>
+          <div id="sidebar-target"></div>
       </aside>
 
-      <main id="main-content">
-        <div id="content-area">
-          <div id="dashboard-container">
-            <div style="text-align: center; margin-top: 50px;">
-              <h2>Iniciando Arquitectura K.E.R.N.E.L....</h2>
-              <p>Si la pantalla permanece así, revisa la consola (F12).</p>
-            </div>
-          </div>
+      <main id="main-content" class="main-content">
+        
+        <div id="dashboard-container"></div>
+        <div id="content-area"></div>
+        <div id="education-container"></div>
+        
+        <div id="fallback-message" style="text-align:center; padding-top:50px;">
+            <h3>Sincronizando con el Kernel...</h3>
+            <p>Si la pantalla sigue blanca, el error está en la línea 54 de tu dashboard.js</p>
         </div>
       </main>
 
     </div>
   </div>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').then((reg) => {
-          console.log('[PWA] Service worker registered');
-        }).catch((err) => {
-          console.error('[PWA] Service worker registration failed:', err);
-        });
-      });
-    }
-  </script>
-
   <script src="js/kernel/boot.js"></script>
   <script src="js/kernel/router.js"></script>
   <script src="js/kernel/data-loader.js"></script>
-  <script src="js/kernel/kiosk-mode.js"></script>
-  <script src="js/terminal/terminal-core.js"></script>
-  <script src="js/terminal/command-parser.js"></script>
   
   <script src="js/ui/sidebar.js"></script>
   <script src="js/ui/dashboard.js"></script>
-  
   <script src="js/modules/education-content.js"></script>
-  <script src="js/modules/games.js"></script>
-  <script src="js/modules/ai.js"></script>
-  <script src="js/modules/support.js"></script>
   
   <script src="js/app.js"></script>
+
+  <script>
+    window.onload = () => {
+      // Si a los 3 segundos sigue el mensaje de carga, quitamos el protector manualmente
+      setTimeout(() => {
+        const boot = document.getElementById('boot-screen');
+        if(boot) boot.style.display = 'none';
+        
+        const main = document.getElementById('main-ui');
+        if(main) main.classList.remove('hidden');
+        
+        console.log("K.E.R.N.E.L. Recovery: Bypass de pantalla de carga ejecutado.");
+      }, 3000);
+    };
+  </script>
 </body>
 </html>
