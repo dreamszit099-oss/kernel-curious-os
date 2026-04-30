@@ -1,59 +1,98 @@
 /**
- * K.E.R.N.E.L. View Router
- * Simple, lightweight internal navigation system
+ * K.E.R.N.E.L. View Router (Refactored - OS Stable Version)
+ * Single-root, DOM-safe, modular rendering system
  */
 
 const KernelRouter = (() => {
-  let currentView = 'dashboard';
+  let currentView = "dashboard";
   const viewMap = new Map();
 
+  // 🔧 ROOT FIXED MOUNT POINT
+  const getRoot = () => document.getElementById("app");
+
+  // =========================
+  // REGISTER VIEW
+  // =========================
   const registerView = (name, renderer, loader) => {
     viewMap.set(name, { renderer, loader });
   };
 
+  // =========================
+  // MAIN RENDER ENGINE
+  // =========================
   const render = async (viewName) => {
-    if (!viewMap.has(viewName)) {
-      console.error(`[ROUTER] View "${viewName}" not registered`);
+    const view = viewMap.get(viewName);
+
+    if (!view) {
+      console.error(`[ROUTER] View not registered: ${viewName}`);
       return;
     }
 
-    const view = viewMap.get(viewName);
-    const container = document.querySelector('.content-body');
-    const header = document.querySelector('.content-header h2');
+    const root = getRoot();
 
-    // Hide all views
-    document.querySelectorAll('.view-container').forEach(el => {
-      el.classList.remove('active');
-    });
-
-    // Load data if needed
-    if (view.loader) {
-      await view.loader();
+    if (!root) {
+      console.error("[ROUTER] #app root container not found");
+      return;
     }
 
-    // Render new view
-    const viewContainer = document.getElementById(`view-${viewName}`);
-    if (viewContainer) {
-      viewContainer.classList.add('active');
-      if (header) header.textContent = viewName.toUpperCase();
+    // 🧹 CLEAR ENTIRE APP (OS STYLE)
+    root.innerHTML = "";
+
+    try {
+      // ⚙️ LOAD DATA / PREP (optional)
+      if (typeof view.loader === "function") {
+        await view.loader();
+      }
+
+      // 🖥️ RENDER VIEW
+      if (typeof view.renderer === "function") {
+        const ui = view.renderer();
+
+        // renderer can return DOM node or HTML string
+        if (ui instanceof HTMLElement) {
+          root.appendChild(ui);
+        } else if (typeof ui === "string") {
+          root.innerHTML = ui;
+        }
+      }
+
       currentView = viewName;
-      updateSidebarActive();
+      updateSidebar();
+
+      console.log(`[ROUTER] View loaded: ${viewName}`);
+    } catch (err) {
+      console.error("[ROUTER] Render error:", err);
     }
   };
 
-  const updateSidebarActive = () => {
-    document.querySelectorAll('.sidebar-item').forEach(item => {
-      if (item.dataset.view === currentView) {
-        item.classList.add('active');
+  // =========================
+  // SIDEBAR STATE UPDATE
+  // =========================
+  const updateSidebar = () => {
+    const items = document.querySelectorAll(".sidebar-item");
+
+    if (!items.length) return;
+
+    items.forEach((item) => {
+      const view = item.dataset.view;
+
+      if (view === currentView) {
+        item.classList.add("active");
       } else {
-        item.classList.remove('active');
+        item.classList.remove("active");
       }
     });
   };
 
+  // =========================
+  // PUBLIC API
+  // =========================
   return {
     registerView,
     render,
     getCurrentView: () => currentView,
   };
 })();
+
+// expose globally (important for modules)
+window.KernelRouter = KernelRouter;
