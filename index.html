@@ -17,26 +17,36 @@
       display: flex !important; 
       visibility: visible !important; 
       min-height: 100vh;
+      background-color: #f4f4f4; /* Fondo claro para ver los textos */
     }
     
-    #content-area { 
-      flex: 1;
-      background-color: #f4f4f4 !important; /* Gris claro para diferenciar el área */
-      color: #1a1a1a !important;            /* Texto oscuro para asegurar lectura */
-      padding: 20px;
-      min-height: 80vh;
-      border: 1px solid #ccc;
-    }
-
-    #sidebar-target {
+    /* Contenedor del Sidebar */
+    #sidebar-container, #sidebar-target {
       width: 250px;
       min-height: 100vh;
       background-color: #2c3e50;
+      color: white;
     }
 
-    /* Asegura que si el JS inyecta texto, este no sea blanco por defecto */
-    #content-area * {
+    /* Contenedor de Contenido Principal */
+    #main-content, #content-area { 
+      flex: 1;
+      background-color: #ffffff !important; 
+      color: #1a1a1a !important;            
+      padding: 20px;
+      min-height: 80vh;
+    }
+
+    /* Forzar que cualquier texto inyectado sea legible (Negro) */
+    #main-content *, #content-area * {
       color: #1a1a1a !important;
+    }
+
+    /* Estilo para los botones del dashboard si llegan a cargar */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
     }
   </style>
 </head>
@@ -54,14 +64,22 @@
     </div>
 
     <div id="main-ui" class="main-ui">
-      <aside id="sidebar-target"></aside>
+      
+      <aside id="sidebar-container">
+        <div id="sidebar-target"></div>
+      </aside>
 
-      <main id="content-area">
-        <div style="text-align: center; margin-top: 50px;">
-          <h2>Cargando módulos del sistema...</h2>
-          <p>Si este mensaje persiste, revisa la consola (F12).</p>
+      <main id="main-content">
+        <div id="content-area">
+          <div id="dashboard-container">
+            <div style="text-align: center; margin-top: 50px;">
+              <h2>Iniciando Arquitectura K.E.R.N.E.L....</h2>
+              <p>Si la pantalla permanece así, revisa la consola (F12).</p>
+            </div>
+          </div>
         </div>
       </main>
+
     </div>
   </div>
 
