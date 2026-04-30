@@ -48,57 +48,46 @@
 
 <body>
 
-  <!-- ROOT ÚNICO DEL SISTEMA -->
+  <!-- ROOT ÚNICO -->
   <div id="app">
 
     <!-- BOOT SCREEN -->
     <div id="boot-screen">
-      
-      <!-- FIX DE RUTA (IMPORTANTE) -->
-      <!-- Correcto: imagen dentro de subcarpeta -->
       <img src="images/logo.png" alt="KERNEL LOGO">
-
       <h1>🧠 K.E.R.N.E.L. EDU OS</h1>
       <p>Initializing system...</p>
+
+      <!-- opcional: barra de progreso -->
+      <div style="width:200px;height:6px;background:#222;border-radius:4px;overflow:hidden;margin-top:10px;">
+        <div class="boot-progress-bar" style="height:100%;width:0%;background:#7ee787;"></div>
+      </div>
     </div>
 
   </div>
 
-  <!-- CORE SCRIPTS -->
-  <script src="js/kernel/boot.js" defer></script>
+  <!-- ========================= -->
+  <!-- CORE SYSTEM (ORDEN IMPORTA) -->
+  <!-- ========================= -->
+
+  <!-- Kernel base -->
   <script src="js/kernel/router.js" defer></script>
+  <script src="js/kernel/boot.js" defer></script>
   <script src="js/kernel/data-loader.js" defer></script>
 
+  <!-- View registry (CRÍTICO para evitar errores de rutas) -->
+  <script src="js/kernel/view-registry.js" defer></script>
+
+  <!-- UI -->
   <script src="js/ui/sidebar.js" defer></script>
   <script src="js/ui/dashboard.js" defer></script>
+
+  <!-- Modules -->
   <script src="js/modules/education-content.js" defer></script>
+  <script src="js/modules/ai.js" defer></script>
+  <script src="js/modules/support.js" defer></script>
 
+  <!-- App entry (último siempre) -->
   <script src="js/app.js" defer></script>
-
-  <!-- SAFE BOOT CONTROL -->
-  <script>
-    (function () {
-      let booted = false;
-
-      window.addEventListener("DOMContentLoaded", () => {
-        if (booted) return;
-        booted = true;
-
-        console.log("[KERNEL] DOM Ready");
-
-        setTimeout(() => {
-          const boot = document.getElementById("boot-screen");
-          if (boot) boot.classList.add("hidden");
-
-          if (window.KernelRouter) {
-            window.KernelRouter.render("dashboard");
-          }
-
-          console.log("[KERNEL] System online");
-        }, 800);
-      });
-    })();
-  </script>
 
 </body>
 </html>
