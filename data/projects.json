@@ -1,0 +1,19 @@
+{
+  "projects": [
+    {
+      "name": "DreamDecode AI",
+      "status": "ACTIVE",
+      "description": "Modular SaaS for investigative intelligence"
+    },
+    {
+      "name": "Neon Drift Runner",
+      "status": "ACTIVE",
+      "description": "High-efficiency web-based game development"
+    },
+    {
+      "name": "Educational Edge",
+      "status": "ACTIVE",
+      "description": "Low-bandwidth AI tools for digital equity"
+    }
+  ]
+}

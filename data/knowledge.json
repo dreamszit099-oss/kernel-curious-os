@@ -1,0 +1,29 @@
+{
+  "overview": "Knowledge base and edge computing resources for low-resource infrastructure and offline-first AI systems.",
+  "items": [
+    {
+      "title": "Low-Resource Computing",
+      "description": "Strategies and techniques for optimizing performance on legacy hardware and edge devices. Focus on minimal dependencies and maximum efficiency."
+    },
+    {
+      "title": "Edge AI Architecture",
+      "description": "Patterns for deploying AI models on resource-constrained environments without cloud dependencies. Offline-first methodology."
+    },
+    {
+      "title": "OSINT & Data Analysis",
+      "description": "Open-source intelligence gathering and pattern detection methodologies. Ethical frameworks for data analysis."
+    },
+    {
+      "title": "Digital Sovereignty",
+      "description": "Building independent infrastructure. Avoiding cloud lock-in. Community-driven technology ownership."
+    },
+    {
+      "title": "Educational Infrastructure",
+      "description": "Open-source tools and frameworks for teaching computational thinking, AI, and systems engineering in resource-limited settings."
+    },
+    {
+      "title": "Terminal-First Design",
+      "description": "CLI-driven interfaces that prioritize simplicity and transparency. Unix philosophy applied to modern web development."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "systemStatus": [
+    "Kernel ONLINE",
+    "Edge AI ACTIVE",
+    "Terminal READY",
+    "Memory OPTIMIZED"
+  ],
+  "resources": [
+    { "name": "CPU Load", "usage": "2%" },
+    { "name": "Memory", "usage": "15%" },
+    { "name": "Storage", "usage": "8%" }
+  ],
+  "kernelVersion": "0.1.0",
+  "uptime": "Session active"
+}
