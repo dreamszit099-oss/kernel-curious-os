@@ -1,37 +1,125 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K.E.R.N.E.L. Curious | Hardware Meets Imagination</title>
-    <style>
-        body { background-color: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-        header { padding: 50px; text-align: center; border-bottom: 1px solid #30363d; }
-        .logo-text { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
-        .tagline { color: #8b949e; font-style: italic; }
-        section { padding: 40px; max-width: 800px; margin: auto; line-height: 1.6; }
-        .highlight { color: #7ee787; font-weight: bold; }
-        footer { text-align: center; padding: 20px; font-size: 0.8em; color: #484f58; }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="logo-text">K.E.R.N.E.L. Curious</div>
-        <p class="tagline">Hardware Meets Imagination</p>
-    </header>
-    <section>
-        <h2>Sobre la iniciativa</h2>
-        <p>Somos un laboratorio de <span class="highlight">Arquitectura de Sistemas Híbridos</span> enfocado en la soberanía tecnológica y la optimización de infraestructura para educación e inteligencia.</p>
-        
-        <h2>Nuestras Áreas de Juego</h2>
-        <ul>
-            <li><strong>Optimización Linux:</strong> Maximización de hardware limitado (Low-resource computing).</li>
-            <li><strong>AI Educativa:</strong> Arquitecturas modulares para el desarrollo docente.</li>
-            <li><strong>OSINT & Data:</strong> Extracción de entidades y análisis de patrones complejos.</li>
-        </ul>
-    </section>
-    <footer>
-        &copy; 2026 Juan Manuel Olvera Velazquez | Desarrollado bajo filosofía Open Source.
-    </footer>
-</body>
-</html>
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { motion } from "framer-motion";
+
+export default function KernelCuriousPortal() {
+  const [lang, setLang] = useState("ES");
+  const [terminalInput, setTerminalInput] = useState("");
+  const [terminalOutput, setTerminalOutput] = useState([
+    "K.E.R.N.E.L. Curious initialized...",
+    "Type 'help' to explore commands"
+  ]);
+
+  const runCommand = () => {
+    let output = "";
+    switch (terminalInput.toLowerCase()) {
+      case "help":
+        output = "Commands: status | osint | optimize | clear";
+        break;
+      case "status":
+        output = "System: ONLINE | Edge AI: ACTIVE | Kernel: STABLE";
+        break;
+      case "osint":
+        output = "OSINT module: scanning simulated datasets...";
+        break;
+      case "optimize":
+        output = "Optimization layer: reducing memory footprint... DONE";
+        break;
+      case "clear":
+        setTerminalOutput([]);
+        setTerminalInput("");
+        return;
+      default:
+        output = `Unknown command: ${terminalInput}`;
+    }
+
+    setTerminalOutput([...terminalOutput, "> " + terminalInput, output]);
+    setTerminalInput("");
+  };
+
+  return (
+    <div className="min-h-screen bg-black text-green-400 p-6 font-mono">
+      {/* HEADER */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold tracking-widest">
+          K.E.R.N.E.L. Curious
+        </h1>
+
+        <div className="flex gap-2">
+          <Button onClick={() => setLang("ES")}>ES</Button>
+          <Button onClick={() => setLang("EN")}>EN</Button>
+          <Button onClick={() => setLang("FR")}>FR</Button>
+        </div>
+      </div>
+
+      {/* DASHBOARD */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card className="bg-zinc-900 border-green-500">
+          <CardContent>
+            <h2 className="text-lg">System Core</h2>
+            <p>Low-level kernel optimization layer active</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-zinc-900 border-green-500">
+          <CardContent>
+            <h2 className="text-lg">Edge AI</h2>
+            <p>Offline intelligence modules ready</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-zinc-900 border-green-500">
+          <CardContent>
+            <h2 className="text-lg">OSINT Engine</h2>
+            <p>Pattern detection sandbox enabled</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* VIDEO SECTION */}
+      <div className="mt-6">
+        <Card className="bg-zinc-900 border-green-500">
+          <CardContent>
+            <h2 className="text-lg mb-2">Vision Module</h2>
+            <div className="aspect-video bg-black border border-green-700 flex items-center justify-center">
+              <p>Video / Demo Placeholder</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* INTERACTIVE TERMINAL */}
+      <div className="mt-6">
+        <Card className="bg-zinc-950 border-green-500">
+          <CardContent>
+            <h2 className="text-lg mb-2">Interactive Terminal</h2>
+
+            <div className="h-64 overflow-auto bg-black p-2 text-sm">
+              {terminalOutput.map((line, i) => (
+                <div key={i}>{line}</div>
+              ))}
+            </div>
+
+            <div className="flex gap-2 mt-2">
+              <Input
+                value={terminalInput}
+                onChange={(e) => setTerminalInput(e.target.value)}
+                placeholder="Enter command..."
+                className="bg-black border-green-500"
+              />
+              <Button onClick={runCommand}>Run</Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* FOOTER */}
+      <div className="mt-6 text-xs opacity-70">
+        MIT License | K.E.R.N.E.L. Curious Architecture Layer
+      </div>
+    </div>
+  );
+}
