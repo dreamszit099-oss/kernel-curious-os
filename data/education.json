@@ -1,0 +1,64 @@
+{
+  "courses": [
+    {
+      "title": "Introduction to Biology",
+      "description": "Explore the fundamentals of life science",
+      "content": {
+        "basic": "Biology is the study of living things. It includes cells (the smallest unit of life), organisms, and ecosystems. Everything alive on Earth relies on biological processes.",
+        "intermediate": "Biology examines life at multiple levels: molecular (DNA, proteins), cellular (organelles, metabolism), organismal (anatomy, physiology), and ecological (populations, ecosystems). Evolution explains biodiversity.",
+        "advanced": "Modern biology integrates molecular genetics, systems biology, and evolutionary theory. Key concepts include gene expression, homeostasis, photosynthesis, cellular respiration, and natural selection as mechanisms of adaptation."
+      },
+      "keywords": ["cells", "organisms", "ecosystems", "evolution"]
+    },
+    {
+      "title": "Fundamental Mathematics",
+      "description": "Core mathematical concepts for problem-solving",
+      "content": {
+        "basic": "Math is a language for describing quantities, patterns, and relationships. Basic operations include addition, subtraction, multiplication, and division. Geometry deals with shapes and space.",
+        "intermediate": "Algebra uses symbols to generalize patterns. Equations allow solving for unknowns. Functions describe relationships between variables. Trigonometry relates angles to side lengths in triangles.",
+        "advanced": "Advanced mathematics includes calculus (studying change), linear algebra (vectors and matrices), differential equations, and complex analysis. These form the basis for physics and engineering."
+      },
+      "keywords": ["numbers", "algebra", "geometry", "functions"]
+    },
+    {
+      "title": "Computer Fundamentals",
+      "description": "Understanding how computers work",
+      "content": {
+        "basic": "Computers use binary (1s and 0s) to process information. They have hardware (physical parts) and software (programs). The Internet connects computers worldwide allowing data sharing.",
+        "intermediate": "Computers operate through logic gates and algorithms. Programming languages allow humans to give instructions. Operating systems manage resources. Networks enable communication between devices.",
+        "advanced": "Computer science involves algorithm complexity analysis, data structures, artificial intelligence, cryptography, and system architecture. Understanding computation theory explains what problems are solvable computationally."
+      },
+      "keywords": ["binary", "algorithms", "programming", "networks"]
+    },
+    {
+      "title": "Global Citizenship",
+      "description": "Understanding our interconnected world",
+      "content": {
+        "basic": "Global citizenship means understanding that we live in an interconnected world. Cultures, economies, and environments are connected. Working together solves global problems.",
+        "intermediate": "Global issues include poverty, climate change, disease, and inequality. International organizations promote cooperation. Sustainable development balances economic growth with environmental protection.",
+        "advanced": "Advanced topics include geopolitics, international law, economic systems, cultural diplomacy, and mechanisms for global governance. Understanding power structures, institutions, and actors enables informed participation in global affairs."
+      },
+      "keywords": ["cooperation", "sustainability", "culture", "equity"]
+    },
+    {
+      "title": "Environmental Science",
+      "description": "Understanding Earth and sustainability",
+      "content": {
+        "basic": "Environmental science studies ecosystems, biodiversity, and human impact. Climate is the pattern of weather. Pollution harms air, water, and soil. Conservation protects nature.",
+        "intermediate": "Ecosystems have energy flows and nutrient cycles. Climate change results from greenhouse gas emissions. Renewable energy offers alternatives to fossil fuels. Biodiversity provides ecosystem services.",
+        "advanced": "Advanced study includes biogeochemical cycles, trophic cascades, tipping points in climate systems, ecosystem resilience, and restoration ecology. Understanding anthropogenic impacts guides evidence-based environmental policy."
+      },
+      "keywords": ["ecosystems", "climate", "biodiversity", "sustainability"]
+    },
+    {
+      "title": "Critical Thinking & Research",
+      "description": "Developing analytical and research skills",
+      "content": {
+        "basic": "Critical thinking means questioning information and evaluating evidence. Research involves finding reliable sources. Being skeptical helps you avoid false information.",
+        "intermediate": "Analyze sources for bias and credibility. Use logic to evaluate arguments. Distinguish correlation from causation. Scientific method guides research through observation, hypothesis, and testing.",
+        "advanced": "Master research methodologies, statistical analysis, and academic writing. Understand epistemology (how we know things). Evaluate complex claims using multiple perspectives. Practice peer review principles."
+      },
+      "keywords": ["evidence", "research", "logic", "analysis"]
+    }
+  ]
+}

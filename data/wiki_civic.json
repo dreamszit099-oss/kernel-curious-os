@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "topic": "Democracy",
+      "content": "System of government where power rests with the people. Citizens participate through voting and representation. Foundation of many modern nations.",
+      "level": "basic",
+      "category": "civic"
+    },
+    {
+      "topic": "Human Rights",
+      "content": "Universal, inalienable rights belonging to all people. Include freedom, dignity, and equality. Protected by international law and constitutions.",
+      "level": "basic",
+      "category": "civic"
+    },
+    {
+      "topic": "Sustainable Development",
+      "content": "Development that meets present needs without compromising future generations. Includes environmental, social, and economic dimensions.",
+      "level": "intermediate",
+      "category": "civic"
+    },
+    {
+      "topic": "Digital Rights",
+      "content": "Rights related to digital technology. Include privacy, free expression online, and protection from cyber threats. Evolving with technology.",
+      "level": "intermediate",
+      "category": "civic"
+    },
+    {
+      "topic": "Open Source Movement",
+      "content": "Philosophy of collaborative, transparent software development. Code is freely available. Promotes innovation, transparency, and community.",
+      "level": "intermediate",
+      "category": "civic"
+    },
+    {
+      "topic": "Digital Sovereignty",
+      "content": "Right of nations and communities to control their digital infrastructure. Prevents corporate and foreign lock-in. Essential for independence.",
+      "level": "advanced",
+      "category": "civic"
+    }
+  ]
+}

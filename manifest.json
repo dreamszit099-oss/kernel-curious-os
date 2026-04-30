@@ -1,0 +1,74 @@
+{
+  "name": "K.E.R.N.E.L. EDU OS",
+  "short_name": "KERNEL EDU",
+  "description": "Offline-first Educational Operating System for Low-Resource Schools",
+  "start_url": "/kernel-curious-os/",
+  "scope": "/kernel-curious-os/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#05070a",
+  "background_color": "#05070a",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%2305070a' width='192' height='192'/><text x='50%' y='50%' font-size='120' fill='%237ee787' font-family='monospace' font-weight='bold' text-anchor='middle' dominant-baseline='middle'>K</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%2305070a' width='512' height='512'/><text x='50%' y='50%' font-size='320' fill='%237ee787' font-family='monospace' font-weight='bold' text-anchor='middle' dominant-baseline='middle'>K</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%2305070a' width='540' height='720'/><text x='50%' y='100' font-size='48' fill='%237ee787' font-family='monospace' text-anchor='middle'>K.E.R.N.E.L.</text></svg>",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View system status and resources",
+      "url": "/kernel-curious-os/?view=dashboard",
+      "icons": []
+    },
+    {
+      "name": "Terminal",
+      "short_name": "Terminal",
+      "description": "Access the OS terminal",
+      "url": "/kernel-curious-os/?view=terminal",
+      "icons": []
+    },
+    {
+      "name": "Wiki",
+      "short_name": "Wiki",
+      "description": "Offline educational wiki",
+      "url": "/kernel-curious-os/?view=wiki",
+      "icons": []
+    },
+    {
+      "name": "AI Assistant",
+      "short_name": "AI",
+      "description": "Offline AI educational assistant",
+      "url": "/kernel-curious-os/?view=ai",
+      "icons": []
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "screenshots_alt": "K.E.R.N.E.L. EDU OS Educational Operating System",
+  "file_handlers": [
+    {
+      "action": "/kernel-curious-os/",
+      "accept": {
+        "text/plain": [".txt"],
+        "application/json": [".json"]
+      }
+    }
+  ]
+}

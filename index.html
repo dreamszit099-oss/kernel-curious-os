@@ -3,14 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K.E.R.N.E.L. Curious OS</title>
+  <meta name="theme-color" content="#05070a">
+  <meta name="description" content="K.E.R.N.E.L. EDU OS - Offline-first Educational Operating System">
+  <title>K.E.R.N.E.L. EDU OS</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%2305070a' width='192' height='192'/><text x='50%' y='50%' font-size='120' fill='%237ee787' font-family='monospace' font-weight='bold' text-anchor='middle' dominant-baseline='middle'>K</text></svg>">
   <link rel="stylesheet" href="styles/main.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect fill='%2305070a' width='64' height='64'/><text x='50%' y='50%' font-size='40' fill='%237ee787' font-family='monospace' font-weight='bold' text-anchor='middle' dominant-baseline='middle'>K</text></svg>">
 </head>
 <body>
   <div id="app">
     <div id="boot-screen" class="boot-screen">
       <div class="boot-content">
-        <div class="boot-text">Initializing K.E.R.N.E.L. Curious OS...</div>
+        <div class="boot-text">Initializing K.E.R.N.E.L. EDU OS...</div>
         <div class="boot-progress">
           <div class="boot-progress-bar"></div>
         </div>
@@ -21,16 +26,31 @@
     </div>
   </div>
 
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').then((reg) => {
+          console.log('[PWA] Service worker registered:', reg);
+        }).catch((err) => {
+          console.error('[PWA] Service worker registration failed:', err);
+        });
+      });
+    }
+  </script>
+
   <!-- Core System Modules -->
   <script src="js/kernel/boot.js"></script>
   <script src="js/kernel/router.js"></script>
   <script src="js/kernel/data-loader.js"></script>
+  <script src="js/kernel/kiosk-mode.js"></script>
   <script src="js/terminal/terminal-core.js"></script>
   <script src="js/terminal/command-parser.js"></script>
   <script src="js/ui/sidebar.js"></script>
   <script src="js/ui/dashboard.js"></script>
-  <script src="js/ui/repository.js"></script>
-  <script src="js/ui/sovereignty.js"></script>
+  <script src="js/modules/wiki.js"></script>
+  <script src="js/modules/ai.js"></script>
+  <script src="js/modules/education.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

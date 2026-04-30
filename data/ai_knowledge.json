@@ -1,0 +1,40 @@
+{
+  "topics": [
+    {
+      "keywords": ["photosynthesis", "plants", "sunlight"],
+      "simple_explanation": "Photosynthesis is how plants make their own food using sunlight. They take in light, water, and carbon dioxide (a gas in the air) and turn it into sugar for energy and oxygen that we breathe.",
+      "advanced_explanation": "Photosynthesis is a biochemical process occurring in chloroplasts. It involves two stages: light-dependent reactions (in thylakoids) that produce ATP and NADPH, and the Calvin cycle (in stroma) that uses these to fix CO2 into glucose through carbon fixation.",
+      "related_topics": ["respiration", "chlorophyll", "glucose"]
+    },
+    {
+      "keywords": ["gravity", "force", "weight"],
+      "simple_explanation": "Gravity is a force that pulls objects toward each other. The bigger and heavier something is, the stronger its gravity. That's why you fall down instead of up, and why the Moon orbits Earth.",
+      "advanced_explanation": "Gravity is described by Newton's law of universal gravitation: F = G(m₁m₂)/r². Objects with mass attract each other with force proportional to their masses and inversely proportional to the square of distance between them.",
+      "related_topics": ["mass", "force", "Newton's laws"]
+    },
+    {
+      "keywords": ["water cycle", "evaporation", "rain"],
+      "simple_explanation": "The water cycle is how water moves around Earth. Water evaporates from oceans and lakes into the sky, forms clouds, and falls back as rain. This cycle repeats endlessly.",
+      "advanced_explanation": "The hydrological cycle involves evaporation, transpiration, condensation, precipitation, and collection. Energy from solar radiation drives evaporation. Changes in atmospheric conditions cause condensation, while gravity returns water via precipitation.",
+      "related_topics": ["clouds", "precipitation", "climate"]
+    },
+    {
+      "keywords": ["algebra", "equation", "variable"],
+      "simple_explanation": "Algebra uses letters (like x and y) to represent unknown numbers. You solve equations to find what the unknown numbers are. It's like a puzzle where you have to figure out the missing piece.",
+      "advanced_explanation": "Algebra is the study of mathematical symbols and the rules for manipulating these symbols. It extends arithmetic by using variables, and allows formulation of generalizations and solving of equations with unknown quantities.",
+      "related_topics": ["equations", "functions", "geometry"]
+    },
+    {
+      "keywords": ["democracy", "voting", "government"],
+      "simple_explanation": "Democracy is a system where people have a say in their government. Citizens vote on important decisions and choose their leaders. It's based on the idea that power comes from the people.",
+      "advanced_explanation": "Democracy is a form of government where sovereignty rests with the people and is exercised either directly or through elected representatives. Components include free elections, rule of law, protection of rights, and separation of powers.",
+      "related_topics": ["rights", "voting", "governance"]
+    },
+    {
+      "keywords": ["open source", "software", "code"],
+      "simple_explanation": "Open source means the code (instructions for software) is freely available for anyone to see, use, and improve. It's collaborative and transparent. Many popular software programs are open source.",
+      "advanced_explanation": "Open source software has source code that is freely available for modification and redistribution. It operates under licenses (GPL, MIT, Apache) that ensure freedoms. Promotes community development, peer review, and rapid innovation.",
+      "related_topics": ["software", "licenses", "community development"]
+    }
+  ]
+}

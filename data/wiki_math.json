@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "topic": "Basic Algebra",
+      "content": "Study of mathematical symbols and rules. Allows solving for unknown values. Foundation for higher mathematics.",
+      "level": "basic",
+      "category": "math"
+    },
+    {
+      "topic": "Geometry",
+      "content": "Study of shapes, sizes, and properties of figures. Includes points, lines, angles, triangles, circles, and three-dimensional objects.",
+      "level": "basic",
+      "category": "math"
+    },
+    {
+      "topic": "Pythagorean Theorem",
+      "content": "In right triangles: a² + b² = c². Relates the lengths of sides. Named after ancient Greek mathematician Pythagoras.",
+      "level": "intermediate",
+      "category": "math"
+    },
+    {
+      "topic": "Calculus",
+      "content": "Study of change and motion. Includes derivatives (rates of change) and integrals (areas and accumulation). Foundation of physics and engineering.",
+      "level": "advanced",
+      "category": "math"
+    },
+    {
+      "topic": "Probability",
+      "content": "Study of likelihood and chance. Ranges from 0 (impossible) to 1 (certain). Used in statistics and decision-making.",
+      "level": "intermediate",
+      "category": "math"
+    },
+    {
+      "topic": "Linear Algebra",
+      "content": "Study of vectors and matrices. Essential for computer science, physics, and engineering applications.",
+      "level": "advanced",
+      "category": "math"
+    }
+  ]
+}

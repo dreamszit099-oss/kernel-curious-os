@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "topic": "Photosynthesis",
+      "content": "Process by which plants convert light energy into chemical energy. Plants use sunlight, water, and carbon dioxide to produce oxygen and glucose.",
+      "level": "basic",
+      "category": "science"
+    },
+    {
+      "topic": "Gravity",
+      "content": "Force that attracts objects with mass. Everything in the universe experiences gravity. It keeps planets in orbit and objects on the ground.",
+      "level": "basic",
+      "category": "science"
+    },
+    {
+      "topic": "Water Cycle",
+      "content": "Continuous process where water evaporates from surfaces, condenses in the atmosphere, and falls as precipitation. Essential for life on Earth.",
+      "level": "basic",
+      "category": "science"
+    },
+    {
+      "topic": "Cellular Respiration",
+      "content": "Process in cells that breaks down glucose to release energy. Occurs in mitochondria. Opposite of photosynthesis in many ways.",
+      "level": "intermediate",
+      "category": "science"
+    },
+    {
+      "topic": "DNA Structure",
+      "content": "Double helix molecule containing genetic instructions. Made of adenine, thymine, guanine, and cytosine bases. Carries hereditary information.",
+      "level": "intermediate",
+      "category": "science"
+    },
+    {
+      "topic": "Thermodynamics",
+      "content": "Study of heat, energy, and work. First law: energy cannot be created or destroyed. Second law: entropy increases in isolated systems.",
+      "level": "advanced",
+      "category": "science"
+    }
+  ]
+}
