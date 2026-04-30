@@ -1,105 +1,104 @@
 /**
- * K.E.R.N.E.L. EDU OS - Service Worker
- * Offline-first caching strategy for PWA
+ * K.E.R.N.E.L. EDU OS - Service Worker (Stable Production Version)
+ * Strategy: Stale-While-Revalidate + Safe Offline Fallback
  */
 
-const CACHE_NAME = 'kernel-edu-v1';
-const ASSETS_TO_CACHE = [
-  '/kernel-curious-os/',
-  '/kernel-curious-os/index.html',
-  '/kernel-curious-os/styles/main.css',
-  '/kernel-curious-os/js/kernel/boot.js',
-  '/kernel-curious-os/js/kernel/router.js',
-  '/kernel-curious-os/js/kernel/data-loader.js',
-  '/kernel-curious-os/js/kernel/kiosk-mode.js',
-  '/kernel-curious-os/js/terminal/terminal-core.js',
-  '/kernel-curious-os/js/terminal/command-parser.js',
-  '/kernel-curious-os/js/ui/sidebar.js',
-  '/kernel-curious-os/js/ui/dashboard.js',
-  '/kernel-curious-os/js/modules/wiki.js',
-  '/kernel-curious-os/js/modules/ai.js',
-  '/kernel-curious-os/js/modules/education.js',
-  '/kernel-curious-os/js/app.js',
-  '/kernel-curious-os/data/status.json',
-  '/kernel-curious-os/data/projects.json',
-  '/kernel-curious-os/data/wiki_science.json',
-  '/kernel-curious-os/data/wiki_math.json',
-  '/kernel-curious-os/data/wiki_civic.json',
-  '/kernel-curious-os/data/ai_knowledge.json',
-  '/kernel-curious-os/data/education.json',
+const CACHE_VERSION = "kernel-edu-v2";
+const STATIC_CACHE = `static-${CACHE_VERSION}`;
+
+const ASSETS = [
+  "./",
+  "./index.html",
+  "./styles/main.css",
+  "./js/app.js",
+  "./js/kernel/boot.js",
+  "./js/kernel/router.js",
+  "./js/ui/dashboard.js",
+  "./js/ui/sidebar.js"
 ];
 
-// Install event - cache assets
-self.addEventListener('install', (event) => {
-  console.log('[SW] Installing service worker...');
+// =========================
+// INSTALL
+// =========================
+self.addEventListener("install", (event) => {
+  console.log("[SW] Installing...");
+
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Caching core assets...');
-      return cache.addAll(ASSETS_TO_CACHE).catch((err) => {
-        console.warn('[SW] Some assets could not be cached:', err);
-      });
+    caches.open(STATIC_CACHE).then((cache) => {
+      return cache.addAll(ASSETS);
     })
   );
-  self.skipWaiting();
+
+  self.skipWaiting(); // fuerza nueva versión
 });
 
-// Activate event - cleanup old caches
-self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating service worker...');
+// =========================
+// ACTIVATE
+// =========================
+self.addEventListener("activate", (event) => {
+  console.log("[SW] Activating...");
+
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
+    caches.keys().then((keys) => {
       return Promise.all(
-        cacheNames.map((name) => {
-          if (name !== CACHE_NAME) {
-            console.log('[SW] Deleting old cache:', name);
-            return caches.delete(name);
+        keys.map((key) => {
+          if (key !== STATIC_CACHE) {
+            console.log("[SW] Deleting old cache:", key);
+            return caches.delete(key);
           }
         })
       );
     })
   );
-  self.clients.claim();
+
+  self.clients.claim(); // toma control inmediato
 });
 
-// Fetch event - serve from cache, fallback to network
-self.addEventListener('fetch', (event) => {
-  const { request } = event;
-  const url = new URL(request.url);
+// =========================
+// FETCH STRATEGY (CRÍTICO)
+// =========================
+self.addEventListener("fetch", (event) => {
+  const req = event.request;
 
-  // Only cache GET requests
-  if (request.method !== 'GET') {
-    event.respondWith(fetch(request));
+  // Solo GET
+  if (req.method !== "GET") return;
+
+  const url = new URL(req.url);
+
+  // Ignorar requests externos no necesarios
+  if (!url.origin.includes(self.location.origin)) {
     return;
   }
 
   event.respondWith(
-    caches.match(request).then((response) => {
-      // Return cached response if available
-      if (response) {
-        return response;
-      }
+    caches.match(req).then((cached) => {
+      const fetchPromise = fetch(req)
+        .then((networkRes) => {
+          if (!networkRes || networkRes.status !== 200) {
+            return networkRes;
+          }
 
-      // Try network if not cached
-      return fetch(request).then((response) => {
-        // Don't cache non-successful responses
-        if (!response || response.status !== 200 || response.type === 'error') {
-          return response;
-        }
+          const clone = networkRes.clone();
 
-        // Cache successful responses
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(request, responseToCache);
-        });
+          caches.open(STATIC_CACHE).then((cache) => {
+            cache.put(req, clone);
+          });
 
-        return response;
-      }).catch(() => {
-        // Offline fallback
-        return new Response('Offline - Content not available', {
-          status: 503,
-          statusText: 'Service Unavailable',
-        });
-      });
+          return networkRes;
+        })
+        .catch(() => cached);
+
+      // 🔥 estrategia híbrida
+      return cached || fetchPromise;
     })
   );
+});
+
+// =========================
+// UPDATE NOTIFICATION (IMPORTANTE)
+// =========================
+self.addEventListener("message", (event) => {
+  if (event.data === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
